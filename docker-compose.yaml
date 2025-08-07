@@ -12,10 +12,9 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-
   backend:
     image: ghcr.io/suna-ai/suna-backend:latest
-    platform: linux/amd64
+    platform: linux/arm64
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -35,10 +34,9 @@ services:
         condition: service_healthy
       worker:
         condition: service_started
-
   worker:
     image: ghcr.io/suna-ai/suna-backend:latest
-    platform: linux/amd64
+    platform: linux/arm64
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -55,7 +53,6 @@ services:
     depends_on:
       redis:
         condition: service_healthy
-
   frontend:
     init: true
     build:
@@ -67,6 +64,5 @@ services:
       - ./frontend/.env.local:/app/.env.local:ro
     depends_on:
       - backend
-
 volumes:
   redis_data:
