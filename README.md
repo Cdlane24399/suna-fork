@@ -144,30 +144,37 @@ Supabase-powered data layer handling authentication, user management, agent conf
 
 ## 🚀 Quick Start
 
-Get your Kortix platform running in minutes with our automated setup wizard:
+Get your Kortix platform running in minutes with multiple deployment options:
 
-### 1️⃣ Clone the Repository
+### 🏠 Local Development
 ```bash
-git clone https://github.com/kortix-ai/suna.git
-cd suna
+git clone https://github.com/Cdlane24399/suna-fork.git
+cd suna-fork
+python setup.py  # Interactive setup wizard
+python start.py  # Start all services
 ```
 
-### 2️⃣ Run the Setup Wizard
-```bash
-python setup.py
-```
-The wizard will guide you through 14 steps with progress saving, so you can resume if interrupted.
+### ☁️ One-Click Cloud Deployment
 
-### 3️⃣ Start the Platform
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/your-template-id)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Cdlane24399/suna-fork)
+
+### 🐳 Docker Deployment
 ```bash
-python start.py
+git clone https://github.com/Cdlane24399/suna-fork.git
+cd suna-fork
+python deploy.py --method local    # Local development
+python deploy.py --method production  # Production deployment
 ```
+
+### 📖 Complete Deployment Guide
+For detailed deployment instructions including cloud platforms, see our [Deployment Guide](./docs/DEPLOYMENT.md).
 
 That's it! Your Kortix platform will be running with Suna ready to assist you.
 
 ## 🏠 Self-Hosting
 
-Kortix can be self-hosted on your own infrastructure using our comprehensive setup wizard, giving you complete control over your AI agent platform. For a complete guide to self-hosting Kortix, please refer to our [Self-Hosting Guide](./docs/SELF-HOSTING.md).
+Kortix can be self-hosted on your own infrastructure using our comprehensive setup wizard, giving you complete control over your AI agent platform. For a complete guide to self-hosting Kortix, please refer to our [Self-Hosting Guide](./docs/SELF-HOSTING.md) and [Deployment Guide](./docs/DEPLOYMENT.md).
 
 ### 🔧 Setup Process Includes
 
@@ -184,7 +191,7 @@ Kortix can be self-hosted on your own infrastructure using our comprehensive set
 
 For advanced users who prefer manual configuration, see the [Self-Hosting Guide](./docs/SELF-HOSTING.md) for detailed manual setup instructions.
 
-The wizard will guide you through all necessary steps to get your Kortix platform up and running. For detailed instructions, troubleshooting tips, and advanced configuration options, see the [Self-Hosting Guide](./docs/SELF-HOSTING.md).
+The wizard will guide you through all necessary steps to get your Kortix platform up and running. For detailed instructions, troubleshooting tips, and advanced configuration options, see the [Self-Hosting Guide](./docs/SELF-HOSTING.md) and [Deployment Guide](./docs/DEPLOYMENT.md).
 
 ## 🤝 Contributing
 
@@ -206,6 +213,6 @@ Kortix is licensed under the Apache License, Version 2.0. See [LICENSE](./LICENS
 
 **Ready to build your first AI agent?** 
 
-[Get Started](./docs/SELF-HOSTING.md) • [Join Discord](https://discord.gg/Py6pCBUUPw) • [Follow on Twitter](https://x.com/kortixai)
+[Get Started](./docs/DEPLOYMENT.md) • [Self-Hosting Guide](./docs/SELF-HOSTING.md) • [Join Discord](https://discord.gg/Py6pCBUUPw) • [Follow on Twitter](https://x.com/kortixai)
 
 </div>

@@ -1,0 +1,46 @@
+# Render deployment configuration
+# Services configuration for render.yaml
+
+services:
+  - type: web
+    name: suna-backend
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    envVars:
+      - key: ENV_MODE
+        value: production
+      - key: PORT
+        value: 8000
+      - key: REDIS_HOST
+        fromService:
+          name: redis
+          type: redis
+          property: host
+      - key: REDIS_PORT
+        fromService:
+          name: redis
+          type: redis
+          property: port
+    healthCheckPath: /health
+
+  - type: web
+    name: suna-frontend
+    env: docker
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_ENV_MODE
+        value: production
+      - key: NEXT_PUBLIC_BACKEND_URL
+        fromService:
+          name: suna-backend
+          type: web
+          envVarKey: RENDER_EXTERNAL_URL
+    healthCheckPath: /
+
+  - type: redis
+    name: redis
+    ipAllowList: []
