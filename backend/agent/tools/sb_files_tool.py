@@ -1,6 +1,6 @@
 from agentpress.tool import ToolResult, openapi_schema, usage_example
 from sandbox.tool_base import SandboxToolsBase
-from utils.files_utils import should_exclude_file, clean_path
+from utils.files_utils import should_exclude_file, clean_path, enforce_workspace_path
 from agentpress.thread_manager import ThreadManager
 from utils.logger import logger
 from utils.config import config
@@ -20,8 +20,13 @@ class SandboxFilesTool(SandboxToolsBase):
         self.workspace_path = "/workspace"  # Ensure we're always operating in /workspace
 
     def clean_path(self, path: str) -> str:
-        """Clean and normalize a path to be relative to /workspace"""
-        return clean_path(path, self.workspace_path)
+        """Clean and normalize a path to be relative to /workspace with enhanced security"""
+        try:
+            return enforce_workspace_path(path, self.workspace_path)
+        except ValueError as e:
+            # Log the security violation and fall back to basic cleaning
+            logger.warning(f"Path security violation in file operation: {e}")
+            return clean_path(path, self.workspace_path)
 
     def _should_exclude_file(self, rel_path: str) -> bool:
         """Check if a file should be excluded based on path, name, or extension"""
