@@ -1,0 +1,35 @@
+# Railway deployment configuration
+# Place this file as railway.toml in the root directory
+
+[build]
+builder = "dockerfile"
+
+[deploy]
+healthcheckPath = "/health"
+healthcheckTimeout = 300
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
+
+[[services]]
+name = "suna-backend"
+source = "./backend"
+
+[services.variables]
+ENV_MODE = "production"
+PORT = "8000"
+
+[[services]]
+name = "suna-frontend"
+source = "./frontend"
+
+[services.variables]
+NODE_ENV = "production"
+NEXT_PUBLIC_ENV_MODE = "production"
+PORT = "3000"
+
+[[services]]
+name = "redis"
+image = "redis:7-alpine"
+
+[services.volumes]
+data = "/data"

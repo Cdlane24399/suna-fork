@@ -48,32 +48,32 @@ jobs:
           context: ./backend
           file: ./backend/Dockerfile
           push: true
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           tags: ghcr.io/${{ github.repository }}/suna-backend:${{ steps.get_tag_name.outputs.branch }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push Frontend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: ghcr.io/${{ github.repository }}/suna-frontend:${{ steps.get_tag_name.outputs.branch }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Deploy to staging
         if: steps.get_tag_name.outputs.environment == 'staging'
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.STAGING_HOST }}
-          username: ${{ secrets.STAGING_USERNAME }}
-          key: ${{ secrets.STAGING_KEY }}
-          script: |
-            cd /home/suna/backend
-            git pull
-            docker compose build
-            docker compose up -d
+        run: |
+          echo "Staging deployment would happen here"
+          echo "Backend image: ghcr.io/${{ github.repository }}/suna-backend:${{ steps.get_tag_name.outputs.branch }}"
+          echo "Frontend image: ghcr.io/${{ github.repository }}/suna-frontend:${{ steps.get_tag_name.outputs.branch }}"
 
       - name: Deploy to prod
         if: steps.get_tag_name.outputs.environment == 'prod'
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.PROD_HOST }}
-          username: ${{ secrets.PROD_USERNAME }}
-          key: ${{ secrets.PROD_KEY }}
-          script: |
-            cd /mnt/gluster-shared/data/infra/suna
-            set -a; source .env; set +a
-            docker stack deploy -c docker-compose.yml suna
+        run: |
+          echo "Production deployment would happen here"
+          echo "Backend image: ghcr.io/${{ github.repository }}/suna-backend:${{ steps.get_tag_name.outputs.branch }}"
+          echo "Frontend image: ghcr.io/${{ github.repository }}/suna-frontend:${{ steps.get_tag_name.outputs.branch }}"
