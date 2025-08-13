@@ -123,6 +123,7 @@ def format_template_for_response(template: AgentTemplate) -> Dict[str, Any]:
         'name': template.name,
         'description': template.description,
         'system_prompt': template.system_prompt,
+        'model': template.config.get('model'),
         'mcp_requirements': format_mcp_requirements_for_response(template.mcp_requirements),
         'agentpress_tools': template.agentpress_tools,
         'tags': template.tags,
@@ -133,6 +134,7 @@ def format_template_for_response(template: AgentTemplate) -> Dict[str, Any]:
         'updated_at': template.updated_at.isoformat(),
         'avatar': template.avatar,
         'avatar_color': template.avatar_color,
+        'profile_image_url': template.profile_image_url,
         'metadata': template.metadata,
         'creator_name': template.creator_name
     }
@@ -158,12 +160,8 @@ def filter_templates_by_tags(templates: List[AgentTemplate], tags: List[str]) ->
     if not tags:
         return templates
     
-    filtered = []
-    for template in templates:
-        if any(tag in template.tags for tag in tags):
-            filtered.append(template)
-    
-    return filtered
+    tag_set = set(tags)
+    return [t for t in templates if tag_set.intersection(set(t.tags or []))]
 
 
 def search_templates_by_name(templates: List[AgentTemplate], query: str) -> List[AgentTemplate]:

@@ -45,6 +45,7 @@ export interface AgentTemplate {
   creator_name?: string;
   avatar?: string;
   avatar_color?: string;
+  profile_image_url?: string;
   is_kortix_team?: boolean;
   metadata?: {
     source_agent_id?: string;
@@ -447,6 +448,18 @@ export function useInstallTemplate() {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
+        const isAgentLimitError = (response.status === 402) && (
+          errorData.error_code === 'AGENT_LIMIT_EXCEEDED' || 
+          errorData.detail?.error_code === 'AGENT_LIMIT_EXCEEDED'
+        );
+        
+        if (isAgentLimitError) {
+          const { AgentCountLimitError } = await import('@/lib/api');
+          // Use the nested detail if it exists, otherwise use the errorData directly
+          const errorDetail = errorData.detail || errorData;
+          throw new AgentCountLimitError(response.status, errorDetail);
+        }
+        
         throw new Error(errorData.message || `HTTP ${response.status}: ${response.statusText}`);
       }
 
