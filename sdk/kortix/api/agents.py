@@ -502,8 +502,6 @@ class AgentsClient:
         self, agent_id: str, profile_id: str, version: Optional[str] = None
     ) -> PipedreamToolsResponse:
         """
-        [WARNING] This endpoint is not implemented.
-
         Get Pipedream tools for an agent profile
 
         Args:
@@ -514,7 +512,6 @@ class AgentsClient:
         Returns:
             PipedreamToolsResponse containing profile info and available tools
         """
-        raise Exception("TODO: unimplemented")
         params = {}
         if version:
             params["version"] = version
@@ -529,8 +526,6 @@ class AgentsClient:
         self, agent_id: str, profile_id: str, request: PipedreamToolsUpdateRequest
     ) -> PipedreamToolsUpdateResponse:
         """
-        [WARNING] This endpoint is not implemented.
-
         Update Pipedream tools for an agent profile
 
         Args:
@@ -541,7 +536,6 @@ class AgentsClient:
         Returns:
             PipedreamToolsUpdateResponse with update result
         """
-        raise Exception("TODO: unimplemented")
         response = await self.client.put(
             f"/agents/{agent_id}/pipedream-tools/{profile_id}", json=to_dict(request)
         )
