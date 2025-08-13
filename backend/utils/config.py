@@ -264,6 +264,10 @@ class Configuration:
     # Admin API key for server-side operations
     KORTIX_ADMIN_API_KEY: Optional[str] = None
 
+    # CORS configuration for self-hosting
+    CORS_ALLOWED_ORIGINS: Optional[str] = None  # Comma-separated list of allowed origins
+    CORS_ALLOW_ALL_ORIGINS: Optional[bool] = False  # Allow all origins (use with caution)
+
     # API Keys system configuration
     API_KEY_SECRET: str = "default-secret-key-change-in-production"
     API_KEY_LAST_USED_THROTTLE_SECONDS: int = 900

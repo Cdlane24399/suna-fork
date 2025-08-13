@@ -114,8 +114,15 @@ class SandboxShellTool(SandboxToolsBase):
             # Set up working directory
             cwd = self.workspace_path
             if folder:
-                folder = folder.strip('/')
-                cwd = f"{self.workspace_path}/{folder}"
+                try:
+                    # Use enhanced path validation to ensure folder is within workspace
+                    validated_folder = enforce_workspace_path(folder, self.workspace_path)
+                    cwd = f"{self.workspace_path}/{validated_folder}"
+                except ValueError as e:
+                    logger.warning(f"Invalid folder path in shell command: {e}")
+                    # Fall back to basic cleaning and workspace root
+                    folder = folder.strip('/')
+                    cwd = f"{self.workspace_path}/{folder}"
             
             # Generate a session name if not provided
             if not session_name:
