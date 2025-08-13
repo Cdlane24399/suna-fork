@@ -144,6 +144,16 @@ if config.ENV_MODE == EnvMode.STAGING:
     allowed_origins.append("http://localhost:3000")
     allow_origin_regex = r"https://suna-.*-prjcts\.vercel\.app"
 
+# Handle custom CORS configuration for self-hosting
+if config.CORS_ALLOW_ALL_ORIGINS:
+    # Allow all origins (use with caution - mainly for development/self-hosting)
+    allowed_origins = ["*"]
+    allow_origin_regex = None
+elif config.CORS_ALLOWED_ORIGINS:
+    # Add custom origins from environment variable
+    custom_origins = [origin.strip() for origin in config.CORS_ALLOWED_ORIGINS.split(",") if origin.strip()]
+    allowed_origins.extend(custom_origins)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
